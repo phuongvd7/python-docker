@@ -1,0 +1,31 @@
+version: '3'
+
+networks:
+  mysqlpythonnet:
+    driver: bridge
+
+services:
+ web:
+  build:
+   context: .
+  ports:
+  - 8000:5000
+  volumes:
+  - ./:/app
+  networks:
+  - mysqlpythonnet
+ mysqldb:
+  image: mysql
+  ports:
+  - 3307:3306
+  environment:
+  - MYSQL_ROOT_PASSWORD=p@ssw0rd1
+  volumes:
+  - mysqlpython:/var/lib/mysql
+  - mysqlpython_config:/etc/mysql
+  networks:
+  - mysqlpythonnet
+
+volumes:
+  mysqlpython:
+  mysqlpython_config:
